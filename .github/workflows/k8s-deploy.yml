@@ -33,12 +33,14 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
+        env:
+          KUBECONFIG: ~/.kube/config
 
-      - name: Check cluster connectivity
+      - name: Test cluster connection
         env:
           KUBECONFIG: ~/.kube/config
         run: |
-          kubectl cluster-info
+          kubectl get nodes
 
       - name: Deploy to Kubernetes
         env:
