@@ -31,10 +31,11 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+        tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-    - name: Set up kubeconfig
+    - name: Set up Kubeconfig from secret
       run: |
+        mkdir -p ~/.kube
         echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
 
     - name: Deploy to Kubernetes
