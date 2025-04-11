@@ -29,12 +29,12 @@ jobs:
           push: true
           tags: smusthaf20/wisecow-app:latest
 
-      - name: Set up Kubeconfig
+      - name: Set up kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 --decode > ~/.kube/config
+          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
 
-      - name: Verify cluster connection
+      - name: Check cluster connectivity
         env:
           KUBECONFIG: ~/.kube/config
         run: |
@@ -44,4 +44,4 @@ jobs:
         env:
           KUBECONFIG: ~/.kube/config
         run: |
-          kubectl apply -f k8s/ --validate=false
+          kubectl apply -f k8s/
