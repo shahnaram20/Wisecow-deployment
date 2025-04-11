@@ -34,6 +34,11 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_DATA }}" | base64 --decode > ~/.kube/config
 
+      - name: Check cluster access (debug)
+        env:
+          KUBECONFIG: ~/.kube/config
+        run: kubectl cluster-info
+
       - name: Deploy to Kubernetes
         env:
           KUBECONFIG: ~/.kube/config
