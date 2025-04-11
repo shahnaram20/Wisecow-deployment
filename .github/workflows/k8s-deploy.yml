@@ -7,8 +7,7 @@ on:
 
 env:
   IMAGE_NAME: wisecow
-  DOCKER_USERNAME: smusthaf20  # replace if needed
-  KUBE_CONFIG_PATH: ci-kubeconfig/config
+  DOCKER_USERNAME: smusthaf20
 
 jobs:
   build-and-deploy:
@@ -34,10 +33,9 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-    - name: Set up Kubeconfig
+    - name: Set up kubeconfig
       run: |
-        mkdir -p ~/.kube
-        cp ${{ env.KUBE_CONFIG_PATH }} ~/.kube/config
+        echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > ~/.kube/config
 
     - name: Deploy to Kubernetes
       run: |
